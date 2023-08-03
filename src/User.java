@@ -11,7 +11,7 @@ public class User {
          return username;
      }
 
-     // Wichtig, um benutzerdefinierte Objekte zu vergleichen
+     // Wichtig, um benutzerdefinierte Objekte zu vergleichen, wird von Arrays.sort() genutzt
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

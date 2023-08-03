@@ -31,7 +31,7 @@ public class Sort {
             return;
         }
 
-        int pivotIndex = partition(users, start, end, descending);
+        int pivotIndex = partition(users, start, end, descending); // Lieber eine eigene Funktion -> übersichtlicher
 
         quicksortRecursive(users, start, pivotIndex - 1, descending);
         quicksortRecursive(users, pivotIndex + 1, end, descending);
@@ -39,7 +39,7 @@ public class Sort {
 
     public static int partition(User[] users, int start, int end, boolean descending) {
         User pivot = users[end];
-        int i = start - 1;
+        int i = start - 1; //
 
         for (int j = start; j < end; j++) {
             if ((descending && users[j].getUsername().compareTo(pivot.getUsername()) > 0) || // Descending

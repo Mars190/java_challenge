@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 public class SortTest {
 
+    // Anstatt Hardcode könnte man vllt. Faker Dependency nutzen oder random Char + Ints
     private User[] generateInput() {
         return new User[]{
             new User("an1on7"),
@@ -19,8 +20,9 @@ public class SortTest {
         };
     }
 
+    // Kein Hardcode, könnte andere Inputs annehmen
     private User[] generateExpectedOutput(User[] input, boolean descending) {
-        User[] expectedOutput = Arrays.copyOf(input, input.length);
+        User[] expectedOutput = Arrays.copyOf(input, input.length); // Um Inputs nicht zu verändern
 
         if (descending) {
             Arrays.sort(expectedOutput, Comparator.comparing(User::getUsername).reversed());
