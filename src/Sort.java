@@ -1,69 +1,61 @@
-import java.util.Arrays;
-
 public class Sort {
-    public static String[] quicksort(String[] array) {
-        quicksortRecursive(array, 0, array.length - 1);
-
-        return array;
-    }
-
-    public static String[] bubblesort(String[] array) {
-        int n = array.length;
+    public static User[] bubblesort(User[] users, boolean descending) {
+        int n = users.length;
         boolean swapped;
-
-        System.out.printf("Before bubble-sort: %s\n", Arrays.toString(array));
 
         do {
             swapped = false;
 
             for (int i = 0; i < n-1; i++)
             {
-                if (array[i].compareTo(array[i + 1]) > 0) // Wenn list[i] weiter hinten im alphabet ist als list[i + 1]
-                {
-                    swap(i, i + 1, array);
+                if ((descending && users[i].getUsername().compareTo(users[i + 1].getUsername()) < 0) || // Descending
+                    (!descending && users[i].getUsername().compareTo(users[i + 1].getUsername()) > 0)) { // Ascending
+                    swap(i, i + 1, users);
                     swapped = true;
                 }
             }
 
         } while (swapped);
 
-        System.out.printf("After bubble-sort:  %s", Arrays.toString(array));
-
-        return array;
+        return users;
     }
 
-    private static void quicksortRecursive(String[] array, int start, int end) {
+    public static User[] quicksort(User[] users, boolean descending) {
+        quicksortRecursive(users, 0, users.length - 1, descending);
+
+        return users;
+    }
+
+    public static void quicksortRecursive(User[] users, int start, int end, boolean descending) {
         if (start >= end) {
             return;
         }
 
-        String p = array[end];
-        int i = start;
-        int j = end - 1;
+        int pivotIndex = partition(users, start, end, descending);
 
-        while (i <= j) {
-            while (i <= j && array[i].compareTo(p) < 0) { // Wenn array[i] weiter vorne ist als p
+        quicksortRecursive(users, start, pivotIndex - 1, descending);
+        quicksortRecursive(users, pivotIndex + 1, end, descending);
+    }
+
+    public static int partition(User[] users, int start, int end, boolean descending) {
+        User pivot = users[end];
+        int i = start - 1;
+
+        for (int j = start; j < end; j++) {
+            if ((descending && users[j].getUsername().compareTo(pivot.getUsername()) > 0) || // Descending
+                    (!descending && users[j].getUsername().compareTo(pivot.getUsername()) < 0)) { // Ascending
                 i++;
-            }
-
-            while (j >= i && array[j].compareTo(p) > 0) { // Wenn array[j] weiter hinten ist als p
-                j--;
-            }
-
-            if (i < j) { // überkreuzung
-                swap(i, j, array);
+                swap(i, j, users);
             }
         }
 
-        swap(i, end, array);
-
-        quicksortRecursive(array, start, i - 1);
-        quicksortRecursive(array, i + 1, end);
+        swap(i + 1, end, users);
+        return i + 1;
     }
 
-    private static void swap(int x, int y, String[] array) {
-        String temp = array[x];
-        array[x] = array[y];
-        array[y] = temp;
+    private static void swap(int x, int y, User[] users) {
+        User temp = users[x];
+        users[x] = users[y];
+        users[y] = temp;
     }
 }
